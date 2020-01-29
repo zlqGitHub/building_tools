@@ -21,6 +21,7 @@ var livereload = require('gulp-livereload');
 
 // 全自动项目构建
 var connect = require('gulp-connect');
+var open = require('open');
 
 // 注册一个任务
 // gulp.task("任务名", function() {
@@ -97,6 +98,10 @@ gulp.task('server', ['default'], function() {
         livereload: true,
         port: 5000
     });
+
+    // open() 打开指定的链接
+    open("http://localhost:5000/");
+
     // 监听目标及绑定的相应任务
     gulp.watch(['./src/js/*.js', './src/css/*.css', './src/less/*.less'], ['js', 'css'])
 });
