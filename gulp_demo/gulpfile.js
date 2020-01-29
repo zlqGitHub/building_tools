@@ -16,6 +16,9 @@ var cleanCss = require('gulp-clean-css');
 // 压缩html文件
 var htmlMin = require('gulp-htmlmin');
 
+// 半自动进行项目构建
+var livereload = require('gulp-livereload');
+
 // 注册一个任务
 // gulp.task("任务名", function() {
 //     // 配置任务的操作
@@ -64,6 +67,15 @@ gulp.task('html', function() {
     return gulp.src('index.html')
         .pipe(htmlMin({collapseWhitespace: true}))   // 表面压缩掉空格
         .pipe(gulp.dest('dist/'))
+});
+
+// 注册监视任务
+gulp.task('watch', ['default'], function() {
+    // 开启监视
+    livereload.listen();
+    // 确定监听的目标以及绑定的相应的任务
+    gulp.watch('./src/js/*.js', ['js']);
+    gulp.watch(['./src/css/*.css', './src/less/*.less'], ['css']);
 });
 
 // 注册默认任务
