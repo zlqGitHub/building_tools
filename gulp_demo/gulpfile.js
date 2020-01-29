@@ -4,12 +4,14 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-
 // 使用gulp-util 打印错误，进行排查
 var gutil = require('gulp-util');
-
 // 引入babel
 var babel = require('gulp-babel')
+
+// less相关
+var less = require('gulp-less');
+var cleanCss = require('gulp-clean-css');
 
 // 注册一个任务
 // gulp.task("任务名", function() {
@@ -33,6 +35,23 @@ gulp.task("js", function() {
         .pipe(rename('build.min.js'))   // 重命名
         // .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('dist/js/'));
+});
+
+// 编译转换less为css的任务
+gulp.task("less", function() {
+    return gulp.src('src/less/*.less')
+        .pipe(less())
+        .pipe(gulp.dest('src/css/'))
+});
+
+// 合并并压缩css文件
+gulp.task('css', function() {
+    return gulp.src('src/css/*.css')
+        .pipe(concat('build.css'))
+        .pipe(rename({suffix: '.min'}))
+        // 压缩合并后的css文件
+        .pipe(cleanCss({compatibility: 'ie8'}))
+        .pipe(gulp.dest('dist/css'))
 });
 
 // 注册默认任务
