@@ -45,7 +45,9 @@ gulp.task("less", function() {
 });
 
 // 合并并压缩css文件
-gulp.task('css', function() {
+// 任务通过return返回，默认情况下是异步的，可以同去电return将其变为同步的，
+// 第二个参数可有可无，可以解决任务间的依赖关系，如下：表示先执行less的任务，在执行css任务
+gulp.task('css', ['less'], function() {
     return gulp.src('src/css/*.css')
         .pipe(concat('build.css'))
         .pipe(rename({suffix: '.min'}))
@@ -55,4 +57,4 @@ gulp.task('css', function() {
 });
 
 // 注册默认任务
-gulp.task('default', []);
+gulp.task('default', ['js', 'less', 'css']);
