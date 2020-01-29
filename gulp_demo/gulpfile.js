@@ -19,6 +19,9 @@ var htmlMin = require('gulp-htmlmin');
 // 半自动进行项目构建
 var livereload = require('gulp-livereload');
 
+// 全自动项目构建
+var connect = require('gulp-connect');
+
 // 注册一个任务
 // gulp.task("任务名", function() {
 //     // 配置任务的操作
@@ -41,7 +44,8 @@ gulp.task("js", function() {
         .pipe(rename('build.min.js'))   // 重命名
         // .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('dist/js/'))
-        .pipe(livereload());  //实时刷新
+        .pipe(livereload())  //实时刷新
+        .pipe(connect.reload())   //热加载
 });
 
 // 编译转换less为css的任务
@@ -49,7 +53,8 @@ gulp.task("less", function() {
     return gulp.src('src/less/*.less')
         .pipe(less())
         .pipe(gulp.dest('src/css/'))
-        .pipe(livereload());  //实时刷新
+        .pipe(livereload())  //实时刷新
+        .pipe(connect.reload())   //热加载
 });
 
 // 合并并压缩css文件
@@ -62,7 +67,8 @@ gulp.task('css', ['less'], function() {
         // 压缩合并后的css文件
         .pipe(cleanCss({compatibility: 'ie8'}))
         .pipe(gulp.dest('dist/css'))
-        .pipe(livereload());  //实时刷新
+        .pipe(livereload())  //实时刷新
+        .pipe(connect.reload())   //热加载
 });
 
 // html
@@ -70,7 +76,8 @@ gulp.task('html', function() {
     return gulp.src('index.html')
         .pipe(htmlMin({collapseWhitespace: true}))   // 表面压缩掉空格
         .pipe(gulp.dest('dist/'))
-        .pipe(livereload());  //实时刷新
+        .pipe(livereload())  //实时刷新
+        .pipe(connect.reload())   //热加载
 });
 
 // 注册监视任务 （半自动）
@@ -81,6 +88,19 @@ gulp.task('watch', ['default'], function() {
     gulp.watch('./src/js/*.js', ['js']);
     gulp.watch(['./src/css/*.css', './src/less/*.less'], ['css']);
 });
+
+// 注册监视任务（全自动）
+gulp.task('server', ['default'], function() {
+    // 配置服务器选项
+    connect.server({
+        root: 'dist/',   // 配置根入口文件 即index.html
+        livereload: true,
+        port: 5000
+    });
+    // 监听目标及绑定的相应任务
+    gulp.watch(['./src/js/*.js', './src/css/*.css', './src/less/*.less'], ['js', 'css'])
+});
+
 
 // 注册默认任务
 gulp.task('default', ['js', 'less', 'css', 'html']);
