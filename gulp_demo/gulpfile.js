@@ -13,6 +13,9 @@ var babel = require('gulp-babel')
 var less = require('gulp-less');
 var cleanCss = require('gulp-clean-css');
 
+// 压缩html文件
+var htmlMin = require('gulp-htmlmin');
+
 // 注册一个任务
 // gulp.task("任务名", function() {
 //     // 配置任务的操作
@@ -56,5 +59,12 @@ gulp.task('css', ['less'], function() {
         .pipe(gulp.dest('dist/css'))
 });
 
+// html
+gulp.task('html', function() {
+    return gulp.src('index.html')
+        .pipe(htmlMin({collapseWhitespace: true}))   // 表面压缩掉空格
+        .pipe(gulp.dest('dist/'))
+});
+
 // 注册默认任务
-gulp.task('default', ['js', 'less', 'css']);
+gulp.task('default', ['js', 'less', 'css', 'html']);
