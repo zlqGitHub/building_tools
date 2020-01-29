@@ -40,7 +40,8 @@ gulp.task("js", function() {
         })
         .pipe(rename('build.min.js'))   // 重命名
         // .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('dist/js/'));
+        .pipe(gulp.dest('dist/js/'))
+        .pipe(livereload());  //实时刷新
 });
 
 // 编译转换less为css的任务
@@ -48,6 +49,7 @@ gulp.task("less", function() {
     return gulp.src('src/less/*.less')
         .pipe(less())
         .pipe(gulp.dest('src/css/'))
+        .pipe(livereload());  //实时刷新
 });
 
 // 合并并压缩css文件
@@ -60,6 +62,7 @@ gulp.task('css', ['less'], function() {
         // 压缩合并后的css文件
         .pipe(cleanCss({compatibility: 'ie8'}))
         .pipe(gulp.dest('dist/css'))
+        .pipe(livereload());  //实时刷新
 });
 
 // html
@@ -67,9 +70,10 @@ gulp.task('html', function() {
     return gulp.src('index.html')
         .pipe(htmlMin({collapseWhitespace: true}))   // 表面压缩掉空格
         .pipe(gulp.dest('dist/'))
+        .pipe(livereload());  //实时刷新
 });
 
-// 注册监视任务
+// 注册监视任务 （半自动）
 gulp.task('watch', ['default'], function() {
     // 开启监视
     livereload.listen();
