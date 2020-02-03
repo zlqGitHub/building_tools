@@ -11,10 +11,10 @@ const TerserJSPlugin = require('terser-webpack-plugin');   // 优化js
   
 module.exports = {
     optimization: {   // 优化项
-        minimizer: [
-            new OptimizeCSSAssetsPlugin({}),
-            new TerserJSPlugin({}),
-        ],
+        // minimizer: [
+        //     new OptimizeCSSAssetsPlugin({}),
+        //     new TerserJSPlugin({}),
+        // ],
     },
     devServer: {  //开发服务器配置
         port: 3000,
@@ -22,7 +22,7 @@ module.exports = {
         contentBase: './build',   // 从 ./build 目录下的资源  
         compress: true    //gzip压缩
     },
-    mode: 'production',   //mode：模式，默认两种production development
+    mode: 'development',   //mode：模式，默认两种production development
     entry: './src/index.js',    //入口(找到入口会将所有相关依赖模块进行打包处理)
     output: {
         filename: 'bundle.js',   //打包后的文件名
@@ -50,6 +50,16 @@ module.exports = {
     module: {   //模块
         // loader 的顺序默认是 从下到上，从右到左
         rules: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
             {
                 test: /\.css$/,
                 use: [
