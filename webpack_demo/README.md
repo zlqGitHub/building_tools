@@ -18,4 +18,4 @@ webpack.dev.js    ---- 开发环境配置
 + 了解 `webpack.config.js` 输入、输出基本配置；
 
 ##### 链接推荐：
-(webpack 学习引导)[https://github.com/1better/mywebpack]
+[webpack 学习引导](https://github.com/1better/mywebpack)
