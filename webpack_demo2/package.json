@@ -1,0 +1,10 @@
+{
+  "name": "webpack_demo2",
+  "version": "1.0.0",
+  "description": "webpack部分源码解析",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.41.5"
+  }
+}
